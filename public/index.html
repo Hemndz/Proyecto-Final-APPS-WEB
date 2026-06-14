@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crxder Cinemas — Compra, renta y ve películas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===================== PANTALLA DE INICIO DE SESIÓN ===================== -->
+<div id="login" class="login-pantalla">
+    <div class="login-card">
+        <div class="login-marca"><span class="marca-icono"></span> Crxder <span class="verde">Cinemas</span></div>
+        <p class="login-sub">Inicia sesión para entrar a la plataforma</p>
+        <form id="form-login">
+            <div class="campo">
+                <label for="usuario">Usuario</label>
+                <input type="text" id="usuario" placeholder="Escribe tu usuario" autocomplete="username" required>
+            </div>
+            <div class="campo">
+                <label for="contrasena">Contraseña</label>
+                <input type="password" id="contrasena" placeholder="Escribe tu contraseña" autocomplete="current-password" required>
+            </div>
+            <p id="login-error" class="login-error"></p>
+            <button type="submit" class="btn btn-verde login-btn">Entrar</button>
+        </form>
+        <p class="login-pista">Demo · usuario: <strong>admin</strong> · contraseña: <strong>crxder123</strong></p>
+    </div>
+</div>
+
+<!-- ===================== NAVBAR ===================== -->
+<header class="navbar">
+    <div class="marca" data-vista="inicio">
+        <span class="marca-icono">🎬</span> Crxder <span class="verde">Cinemas</span>
+    </div>
+    <nav class="nav-links">
+        <button class="nav-link activo" data-vista="inicio">Inicio</button>
+        <button class="nav-link" data-vista="administrar">Administrar</button>
+        <button class="nav-link" data-vista="estadisticas">Estadísticas</button>
+        <button class="nav-link salir" id="btn-logout">Cerrar sesión</button>
+    </nav>
+</header>
+
+<main>
+
+    <!-- ===================== VISTA: INICIO ===================== -->
+    <section id="vista-inicio" class="vista activa">
+        <div id="hero" class="hero"></div>
+
+        <div class="contenedor">
+            <div class="controles">
+                <input type="search" id="buscador" placeholder="🔍 Buscar por título o género...">
+                <select id="filtro-genero">
+                    <option value="">Todos los géneros</option>
+                </select>
+                <select id="filtro-tipo">
+                    <option value="">Compra · Renta · Streaming</option>
+                    <option value="streaming">Solo en streaming</option>
+                </select>
+                <select id="orden">
+                    <option value="">Ordenar por…</option>
+                    <option value="calif">Mejor calificadas</option>
+                    <option value="anio">Más recientes</option>
+                    <option value="precio">Precio (menor a mayor)</option>
+                    <option value="titulo">Título (A-Z)</option>
+                </select>
+            </div>
+            <div id="catalogo"></div>
+        </div>
+    </section>
+
+    <!-- ===================== VISTA: ADMINISTRAR ===================== -->
+    <section id="vista-administrar" class="vista">
+        <div class="contenedor">
+            <h2 class="seccion-h2">🎞️ Administrar catálogo</h2>
+
+            <div class="admin-layout">
+                <!-- Formulario de registro / edición -->
+                <div class="form-card">
+                    <h3 id="titulo-form">Registrar nueva película</h3>
+                    <p id="mensaje-form" class="mensaje-form"></p>
+
+                    <form id="form-pelicula">
+                        <!-- Campo oculto: si tiene id, el formulario EDITA (PUT); si está vacío, REGISTRA (POST) -->
+                        <input type="hidden" id="pelicula-id">
+
+                        <div class="campo">
+                            <label for="titulo">Título *</label>
+                            <input type="text" id="titulo" placeholder="Ej. Estación Marte" required>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="campo">
+                                <label for="genero">Género *</label>
+                                <input type="text" id="genero" list="generos-lista" placeholder="Ej. Ciencia ficción" required>
+                                <datalist id="generos-lista"></datalist>
+                            </div>
+                            <div class="campo">
+                                <label for="anio">Año *</label>
+                                <input type="number" id="anio" min="1900" max="2100" placeholder="2024" required>
+                            </div>
+                            <div class="campo">
+                                <label for="duracion">Duración (min) *</label>
+                                <input type="number" id="duracion" min="1" placeholder="120" required>
+                            </div>
+                            <div class="campo">
+                                <label for="clasificacion">Clasificación</label>
+                                <select id="clasificacion">
+                                    <option value="A">A</option>
+                                    <option value="B" selected>B</option>
+                                    <option value="B15">B15</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                </select>
+                            </div>
+                            <div class="campo">
+                                <label for="calificacion">Calificación (0-10) *</label>
+                                <input type="number" id="calificacion" min="0" max="10" step="0.1" placeholder="8.5" required>
+                            </div>
+                            <div class="campo">
+                                <label for="precioCompra">Precio compra ($) *</label>
+                                <input type="number" id="precioCompra" min="0" step="1" placeholder="199" required>
+                            </div>
+                            <div class="campo">
+                                <label for="precioRenta">Precio renta ($) *</label>
+                                <input type="number" id="precioRenta" min="0" step="1" placeholder="49" required>
+                            </div>
+                        </div>
+
+                        <div class="campo">
+                            <label for="imagen">URL de imagen / póster (opcional)</label>
+                            <input type="url" id="imagen" placeholder="https://...">
+                        </div>
+
+                        <div class="campo">
+                            <label for="descripcion">Descripción</label>
+                            <textarea id="descripcion" rows="3" placeholder="Breve sinopsis de la película..."></textarea>
+                        </div>
+
+                        <label class="check">
+                            <input type="checkbox" id="disponibleStreaming" checked>
+                            Disponible en streaming
+                        </label>
+
+                        <div class="acciones-formulario">
+                            <button type="submit" id="btn-guardar" class="btn btn-verde">Registrar película</button>
+                            <button type="button" id="btn-cancelar" class="btn btn-borde">Cancelar edición</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Lista / tabla de películas -->
+                <div class="lista-card">
+                    <h3>Películas registradas</h3>
+                    <div id="tabla-peliculas" class="tabla-scroll"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== VISTA: ESTADÍSTICAS ===================== -->
+    <section id="vista-estadisticas" class="vista">
+        <div class="contenedor">
+            <h2 class="seccion-h2">📊 Estadísticas del catálogo</h2>
+            <div id="stats-tarjetas" class="stats-grid"></div>
+            <div id="stats-generos" class="bloque"></div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="pie">
+    <p>Crxder Cinemas · Proyecto Final de Desarrollo de Aplicaciones Web · 2026</p>
+</footer>
+
+<!-- ===================== MODAL DE DETALLE ===================== -->
+<div id="modal" class="modal oculto">
+    <div id="modal-contenido" class="modal-contenido"></div>
+</div>
+
+<!-- ===================== TOAST (avisos) ===================== -->
+<div id="toast" class="toast oculto"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

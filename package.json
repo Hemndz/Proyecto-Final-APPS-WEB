@@ -1,0 +1,23 @@
+{
+  "name": "crxder-cinemas",
+  "version": "2.0.0",
+  "description": "Crxder Cinemas - Plataforma web para comprar, rentar y ver peliculas. Proyecto final de Desarrollo de Aplicaciones Web.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js"
+  },
+  "keywords": [
+    "express",
+    "peliculas",
+    "crud",
+    "crxder-cinemas",
+    "proyecto-final"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
